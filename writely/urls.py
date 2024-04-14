@@ -20,5 +20,6 @@ from django.urls import path, include # type: ignore
 urlpatterns = [
     path('admin/', admin.site.urls),
     # fro my home page
-    path('blog/', include('blog.urls')),
+    # path('blog/', include('blog.urls')),
+    path('', include('blog.urls')),
 ]
