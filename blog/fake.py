@@ -1,10 +1,10 @@
 from faker import Faker
 
-def getRandomPost():
+def getRandomPost(n):
     fake = Faker();
     dummy_data = [];
     tags = ['Technology','Design','Culture','Business','Politics','Opinion','Science','Health','Style','Travel']
-    for i in range(20):
+    for i in range(n):
         post = {
             'author':fake.name(),
             'title': fake.sentence(),

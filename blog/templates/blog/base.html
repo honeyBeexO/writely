@@ -37,25 +37,14 @@
                 <a href="#">upgrade your browser</a> to improve your experience.
             </p>
         <![endif]-->
-
+        {% include 'blog/base/header.html' %}
         <main class="container">
-            {% block longerFeaturedPost %} {% block longerFeaturedPost %}
-            <div class="row mb-2">
-                {% block featuredPosts %} {% endblock featuredPosts%}
-            </div>
+            {% block longerFeaturedPost %} {% endblock longerFeaturedPost %}
+            <span />
+            {% block featuredPosts %} {% endblock featuredPosts%}
+            <span />
         </main>
-
-        <footer class="py-5 text-center text-body-secondary bg-body-tertiary">
-            <p>
-                Blog template built for
-                <a href="https://getbootstrap.com/">Bootstrap</a> by
-                <a href="https://twitter.com/mdo">@mdo</a>.
-            </p>
-            <p class="mb-0">
-                <a href="#">Back to top</a>
-            </p>
-        </footer>
-
+        {% include 'blog/base/header.html' %}
         <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

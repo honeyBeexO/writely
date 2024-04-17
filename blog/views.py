@@ -4,12 +4,12 @@ from django.http import HttpResponse # type: ignore
 from . import fake
 def home(request):
     #return HttpResponse('<h1>Home</h1>');
-    _posts = fake.getRandomPost();
+    _posts = fake.getRandomPost(10);
     context = {
         'title':'Home Page | Writely | Home ',
         'posts':_posts,
         'featuredLonger': _posts[0],
-        'featured': fake.getRandomPost(),
+        'featuredPosts': fake.getRandomPost(3),
     }
     return render(request,'blog/home.html',context=context);
 
