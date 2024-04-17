@@ -14,4 +14,4 @@ def home(request):
     return render(request,'blog/home.html',context=context);
 
 def about(request):
-    return HttpResponse('<h1>About</h1>');
+    return HttpResponse("<h1>About</h1>");
