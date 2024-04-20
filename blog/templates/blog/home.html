@@ -25,7 +25,7 @@
                 >
                 <h3 class="mb-0">Featured post</h3>
                 <div class="mb-1 text-body-secondary">
-                    {{ post.date_posted }}
+                    On {{ post.date_posted|date:"l jS M, Y"}} By <p>{{ post.author.username }}</p>
                 </div>
                 <p class="card-text mb-auto">{{ post.content }}</p>
                 <a
@@ -59,20 +59,42 @@
     {% endfor %}
 </div>
 {% endblock featuredPosts%}
-<span />
-{% block content %}
-<div>
-    <h1>List of posts:</h1>
-    <ul>
-        {% for post in posts %}
-        <li style="none">
-            <h3>{{ post.title }}</h3>
-            <caption>
-                By {{ post.author }} On {{post.date_posted}}
-            </caption>
-            <p>{{ post.content }}</p>
-        </li>
-        {% endfor %}
-    </ul>
+{% block all_posts %}
+<div class="row g-5 justify-content-center">
+    {% for post in posts %}
+    <div class="col-md-8 center card">
+        {% comment %} <h3 class="pb-4 mb-4 fst-italic border-bottom"> {{ post.title }} </h3> {% endcomment %}
+
+        <article class="blog-post">
+            <h2 class="display-5 link-body-emphasis mb-1">{{ post.title }} </h2>
+            <p class="blog-post-meta caption">
+                On {{ post.date_posted|date:"l jS M, Y"}} By <a href="#">{{ post.author.username }}</a>
+            </p>
+
+            <p>
+                {{ post.content }}
+            </p>
+            <hr />
+            <p>
+                {{ post.content }}
+            </p>
+            <h2>Blockquotes</h2>
+            <p>This is an example blockquote in action:</p>
+            <blockquote class="blockquote">
+                <p>{{ post.content }}</p>
+            </blockquote>
+            <p>
+                {{ post.content }}
+            </p>
+        </article>
+
+    </div>
+    {% endfor %}
 </div>
-{% endblock content %}
+
+
+
+
+
+
+{% endblock all_posts %}

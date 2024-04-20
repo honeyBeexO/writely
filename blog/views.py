@@ -7,9 +7,9 @@ def home(request):
     _posts = Post.objects.all()
     context = {
         'title':'Home Page | Writely | Home ',
-        'posts':_posts[3:],
+        'posts':_posts,
         'featuredLonger': _posts[0],
-        'featuredPosts': _posts[:3],
+        'featuredPosts': _posts[:4],
     }
     return render(request,'blog/home.html',context=context);
 
