@@ -2,6 +2,9 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 # Create your models here.
+import random
+tags = ['Technology','Design','Culture','Business','Politics','Opinion','Science','Health','Style','Travel']
+
 class Post(models.Model):
     title= models.CharField(max_length=100)
     content= models.TextField()
@@ -12,6 +15,7 @@ class Post(models.Model):
     date_created= models.DateTimeField(auto_now_add=True,null=True,blank=True)
     # import the user model from django.contrib.auth.models
     author= models.ForeignKey(User, on_delete=models.CASCADE)
+    tag = models.CharField(max_length=50,default=random.choice(tags),blank=True,null=True)
     #Querying use: .filter()| .get() returns a single value or error| .all() returns a set or QuerySet
     #Querying use: .save() to write the python object into the database
     #Querying use: user.modelName_set.. to do many things, it gives us something to query against
