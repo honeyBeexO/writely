@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # My Own Apps
     'blog.apps.BlogConfig',
+    'users.apps.UsersConfig',
     # Third Party Apps
 ]
 
