@@ -1,7 +1,7 @@
 {% extends 'blog/base/base.html' %}
 
 {% block content %}
-<main class="form-signin w-100 m-auto">
+<main class="form-signup w-50 m-auto">
     <form method="POST">
         {% csrf_token %}
       {% comment %} 
@@ -28,7 +28,15 @@
       {% endcomment %}
       <fieldset class="form-group">
         <legend class="border-bottom mb-4">Join Today</legend>
+        {{ form }}
+        <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
       </fieldset>
     </form>
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            Already have an account? <a href="#" class="ml-2"> Sign in</a>
+
+        </small>
+    </div>
   </main>
 {%endblock content%}
