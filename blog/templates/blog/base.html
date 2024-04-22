@@ -41,6 +41,13 @@
         <![endif]-->
         {% include 'blog/base/header.html' %}
         <main class="container">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{message.tags}}">
+                        <p> {{ message }} </p>
+                    </div>
+                {% endfor %}
+            {%endif%}
             {% block longerFeaturedPost %} {% endblock longerFeaturedPost %}
             <span />
             {% block featuredPosts %} {% endblock featuredPosts%}
