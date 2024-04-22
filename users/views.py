@@ -4,6 +4,14 @@ from django.shortcuts import render
 from django.contrib.auth.forms import UserCreationForm
 
 def register(request):
-    form = UserCreationForm()
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            #email = form.cleaned_data['email']
+            print(f'{username}')
+    else:
+        form = UserCreationForm()
+    
     return render(request, 'users/register.html', {'form': form})
     
