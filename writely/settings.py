@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # My Own Apps
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
+    'catalog.apps.CatalogConfig',
     # Third Party Apps
     'crispy_forms',
     'crispy_bootstrap5',
