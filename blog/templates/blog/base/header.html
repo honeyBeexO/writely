@@ -34,7 +34,17 @@
                         <path d="M21 21l-5.2-5.2" />
                     </svg>
                 </a>
-                <a class="btn btn-sm btn-outline-secondary" href="{% url 'register' %}">Sign up</a>
+                {% if user.is_authenticated %}
+                    <form action="{% url 'logout' %}" method="POST">
+                        {% csrf_token %}
+                        <button class="nav-item nav-link">Logout</button>
+                    </form>
+                    {% else %}
+                        <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+                        <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+                    {% endif %}
+                  </div>
+                {% comment %} <a class="btn btn-sm btn-outline-secondary" href="{% url 'register' %}">Sign up</a> {% endcomment %}
             </div>
         </div>
     </header>

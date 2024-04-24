@@ -1,0 +1,15 @@
+{% extends 'blog/base/base.html' %} 
+{% block content %}
+
+    <div class="card">
+      <div class="card-header">
+        <h6 class="card-text"> Logged out </h6>
+      </div>
+    <div class="card-body">
+        <p> Log in again. </p>
+        <small class="text-muted">
+          <a href="{% url 'login' %}" class="ml-2"> Log in again.</a>
+          </small>
+    </div>
+  </div>
+{%endblock content%}
