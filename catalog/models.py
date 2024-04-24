@@ -57,10 +57,24 @@ class Author(models.Model):
 
 
 class Language(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100,
+                            unique=True,
+                            help_text='Enter the book\'s natural language (e.g. English, French, Japanese etc.)'
+                            )
+    def get_absolute_url(self):
+        return reverse('language-detail',args=[str(self.id)])
 
     def __str__(self) -> str:
         return self.name
+    class Meta:
+        ordering = ['-name']
+        constraints = [
+            UniqueConstraint(
+                Lower('name'),
+                name='language_name_case_insensitive_unique',
+                violation_error_message="Genre already exists (case insensitive match)"
+            )
+        ]
 
 
 class Book(models.Model):
@@ -85,7 +99,9 @@ class Book(models.Model):
         Genre,
         help_text="Select a genre for this book"
     )
-
+    def display_genre(self):
+        return ", ".join([genre.name for genre in self.genre.all()[:3]])
+    
     def __str__(self):
         """String for representing the Model object."""
         return self.title
@@ -93,35 +109,53 @@ class Book(models.Model):
     def get_absolute_url(self):
         """Returns the URL to access a detail record for this book."""
         return reverse('book-detail', args=[str(self.id)])
+    class Meta:
+        ordering = ['title','author']
 
 import uuid
-class BookInstance(models.Model):
+from datetime import date
 
+from django.conf import settings  # Required to assign User as a borrower
+
+
+class BookInstance(models.Model):
     """Model representing a specific copy of a book (i.e. that can be borrowed from the library)."""
     id = models.UUIDField(primary_key=True, default=uuid.uuid4,
                           help_text="Unique ID for this particular book across whole library")
     book = models.ForeignKey('Book', on_delete=models.RESTRICT, null=True)
     imprint = models.CharField(max_length=200)
     due_back = models.DateField(null=True, blank=True)
+    borrower = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
+
+    @property
+    def is_overdue(self):
+        """Determines if the book is overdue based on due date and current date."""
+        return bool(self.due_back and date.today() > self.due_back)
 
     LOAN_STATUS = (
-        ('m', 'Maintenance'),
+        ('d', 'Maintenance'),
         ('o', 'On loan'),
         ('a', 'Available'),
         ('r', 'Reserved'),
     )
 
     status = models.CharField(
-        max_length=10,
+        max_length=1,
         choices=LOAN_STATUS,
         blank=True,
-        default='m',
-        help_text='Book availability',
-    )
+        default='d',
+        help_text='Book availability')
 
     class Meta:
         ordering = ['due_back']
+        permissions = (("can_mark_returned", "Set book as returned"),)
+
+    def get_absolute_url(self):
+        """Returns the url to access a particular book instance."""
+        return reverse('bookinstance-detail', args=[str(self.id)])
 
     def __str__(self):
         """String for representing the Model object."""
         return f'{self.id} ({self.book.title})'
+
