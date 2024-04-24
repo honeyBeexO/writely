@@ -21,6 +21,7 @@ def register(request):
         form = UserSignupForm()
     
     return render(request, 'users/register.html', {'form': form})
-    
+from django.contrib.auth.decorators import login_required
+@login_required
 def profile(request):
     return render(request, 'users/profile.html')
