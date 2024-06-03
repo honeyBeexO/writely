@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
     'catalog.apps.CatalogConfig',
+    'creamsQuizz.apps.CreamsquizzConfig',
     # Third Party Apps
     'crispy_forms',
     'crispy_bootstrap5',
