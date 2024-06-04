@@ -135,8 +135,12 @@ class Cake(models.Model):
 class Icecream(models.Model):
     GELATO = 'Gelato'
     SORBET = 'Sorbet'
-    types = [(GELATO,GELATO),(SORBET,SORBET)]
-    type = models.CharField(max_length=100,choices=types,default=GELATO)
+    types = [(GELATO, GELATO), (SORBET, SORBET)]
+    name = models.CharField(max_length=200, default=GELATO)
+    type = models.CharField(max_length=100, choices=types, default=GELATO)
+
+    def __str__(self):
+        return self.name
 
 class Waffel(models.Model):
     CLASSIC = 'Signature Desserts continued & OLD SCHOOL CLASSICS'
@@ -147,4 +151,6 @@ class Waffel(models.Model):
     sauces = models.ForeignKey(Sauce, blank=True, null=True, on_delete=models.SET_NULL)
     toppings = models.ForeignKey(Topping, blank=True, null=True, on_delete=models.SET_NULL)
     cakes = models.ForeignKey(Cake, blank=True, null=True, on_delete=models.SET_NULL)
+    icecream = models.ForeignKey(Icecream, blank=True, null=True, on_delete=models.SET_NULL)
+    description = models.TextField(blank=True,null=True)
     
