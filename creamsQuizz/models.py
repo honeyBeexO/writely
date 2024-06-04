@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models # type: ignore
 
 # Create your models here.
 
@@ -132,4 +132,19 @@ class Cake(models.Model):
     def __str__(self):
         return self.name
 
+class Icecream(models.Model):
+    GELATO = 'Gelato'
+    SORBET = 'Sorbet'
+    types = [(GELATO,GELATO),(SORBET,SORBET)]
+    type = models.CharField(max_length=100,choices=types,default=GELATO)
+
+class Waffel(models.Model):
+    CLASSIC = 'Signature Desserts continued & OLD SCHOOL CLASSICS'
+    PREMIUM = 'Premium'
+    types = [(CLASSIC,CLASSIC),(PREMIUM,PREMIUM)]
+    name = models.CharField(max_length=256)
+    type = models.CharField(max_length=100,choices=types)
+    sauces = models.ForeignKey(Sauce, blank=True, null=True, on_delete=models.SET_NULL)
+    toppings = models.ForeignKey(Topping, blank=True, null=True, on_delete=models.SET_NULL)
+    cakes = models.ForeignKey(Cake, blank=True, null=True, on_delete=models.SET_NULL)
     

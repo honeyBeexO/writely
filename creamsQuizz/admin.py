@@ -1,7 +1,7 @@
-from django.contrib import admin
+from django.contrib import admin # type: ignore
 
 # Register your models here.
-from django.contrib import admin
+from django.contrib import admin # type: ignore
 from . import models
 # Register your models here.
 admin.site.register(models.Sauce)
@@ -11,12 +11,13 @@ admin.site.register(models.Cake)
 
 
 #admin.site.register(models.Author)
-# class BooksInstanceInline(admin.TabularInline):
-#     model = models.BookInstance
-# @admin.register(models.Book) # this the same as: admin.site.register(models.Book)
-# class BookAdmin(admin.ModelAdmin):
-#     list_display = ('title', 'author', 'display_genre')
-#     inlines = [BooksInstanceInline]
+# class CakeInstanceInline(admin.TabularInline):
+#     model = models.Cake
+# @admin.register(models.Cake) # this the same as: admin.site.register(models.Book)
+# class CakeAdmin(admin.ModelAdmin):
+#     list_display = ('name')
+#     inlines = [CakeInstanceInline]
+    
 # @admin.register(models.Author)
 # class AuthorAdmin(admin.ModelAdmin):
 #     list_display = ('last_name', 'first_name', 'date_of_birth', 'date_of_death')
