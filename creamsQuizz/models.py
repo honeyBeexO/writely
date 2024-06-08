@@ -40,6 +40,8 @@ class Sauce(models.Model):
         return self.name
 
 class Topping(models.Model):
+    MILK_CHOCOLATE = 'Milk Chocolate Shavings'
+    WHITE_CHOCOLATE = 'White Chocolate Shavings'
     STRAWBERRY = 'Strawberry Slices'
     BANANA = 'Banana Slices'
     LOTUSBISCOFF = 'Lotus Biscoff Crumbs'
@@ -61,6 +63,12 @@ class Topping(models.Model):
     AERO_MINT_BUBBLE = 'Aero Mint Bubble'
     JAMMIE_DODGER = 'Jammie Dodger'
     ROLO = 'Rolo'
+    NUTS = 'Chopped Nuts'
+    WAFER = 'Cream\'s Wafer'
+    SOFT_SERVE= 'Soft Serve'
+    BUTTER = 'Butter'
+    SUGAR = 'Sugar'
+    ICE_SUGAR = 'Icing Sugar'
 
     TOPPINGS_CHOICES = [
         (STRAWBERRY, 'Strawberry Slices'),
@@ -83,7 +91,15 @@ class Topping(models.Model):
         (SMARTIES, 'Smarties'),
         (AERO_MINT_BUBBLE, 'Aero Mint Bubble'),
         (JAMMIE_DODGER, 'Jammie Dodger'),
-        (ROLO, 'Rolo')
+        (ROLO, 'Rolo'),
+        (WAFER,WAFER),
+        (NUTS,NUTS),
+        (SOFT_SERVE,SOFT_SERVE),
+        (BUTTER,BUTTER),
+        (SUGAR,SUGAR),
+        (ICE_SUGAR,ICE_SUGAR),
+        (MILK_CHOCOLATE,MILK_CHOCOLATE),
+        (WHITE_CHOCOLATE,WHITE_CHOCOLATE)
     ]
 
     name = models.CharField(
@@ -148,9 +164,12 @@ class Waffel(models.Model):
     types = [(CLASSIC,CLASSIC),(PREMIUM,PREMIUM)]
     name = models.CharField(max_length=256)
     type = models.CharField(max_length=100,choices=types)
-    sauces = models.ForeignKey(Sauce, blank=True, null=True, on_delete=models.SET_NULL)
-    toppings = models.ForeignKey(Topping, blank=True, null=True, on_delete=models.SET_NULL)
-    cakes = models.ForeignKey(Cake, blank=True, null=True, on_delete=models.SET_NULL)
-    icecream = models.ForeignKey(Icecream, blank=True, null=True, on_delete=models.SET_NULL)
+    sauces = models.ManyToManyField(Sauce, blank=True, null=True)
+    toppings = models.ManyToManyField(Topping, blank=True, null=True)
+    cakes = models.ManyToManyField(Cake, blank=True, null=True)
+    scoops = models.ManyToManyField(Icecream, blank=True, null=True)
     description = models.TextField(blank=True,null=True)
+    
+    def __str__(self):
+        return self.name + ' ' + 'Waffle'
     
