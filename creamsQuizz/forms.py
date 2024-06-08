@@ -20,9 +20,9 @@ class WaffleQuizForm(forms.Form):
         required=False,
         label="Cakes"
     )
-    icecreams = forms.ModelMultipleChoiceField(
+    scoops = forms.ModelMultipleChoiceField(
         queryset=Icecream.objects.all(),
         widget=forms.CheckboxSelectMultiple,
         required=False,
-        label="Gelato"
+        label="Scoops"
     )

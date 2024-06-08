@@ -1,48 +1,18 @@
-
 {% block content %}
 <h1 class="my-4">{{ waffel.name }} Quiz Result</h1>
-<h3>Your Answers:</h3>
-<p>Sauces:</p>
-<ul class="list-group">
-    {% for sauce_id in selected_sauces %}
-        <li class="list-group-item">{{ sauces.get(id=sauce_id).name }}</li>
-    {% endfor %}
-</ul>
-<p>Toppings:</p>
-<ul class="list-group">
-    {% for topping_id in selected_toppings %}
-        <li class="list-group-item">{{ toppings.get(id=topping_id).name }}</li>
-    {% endfor %}
-</ul>
-<p>Cakes:</p>
-<ul class="list-group">
-    {% for cake_id in selected_cakes %}
-        <li class="list-group-item">{{ cakes.get(id=cake_id).name }}</li>
-    {% endfor %}
-</ul>
-{% if is_correct %}
-    <p class="alert alert-success mt-3">You got it right!</p>
-{% else %}
-    <p class="alert alert-danger mt-3">That's not correct. Try again!</p>
-    <h3>Correct Answers:</h3>
-    <p>Sauces:</p>
-    <ul class="list-group">
-        {% for sauce in correct_sauces %}
-            <li class="list-group-item">{{ sauce.name }}</li>
+<div class="container my-5">
+    <h1 class="my-4"></h1>
+    <div class="row">
+        {% for s in s_feedback %}
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{s}}</h5>
+                    </div>
+                </div>
+            </div>
         {% endfor %}
-    </ul>
-    <p>Toppings:</p>
-    <ul class="list-group">
-        {% for topping in correct_toppings %}
-            <li class="list-group-item">{{ topping.name }}</li>
-        {% endfor %}
-    </ul>
-    <p>Cakes:</p>
-    <ul class="list-group">
-        {% for cake in correct_cakes %}
-            <li class="list-group-item">{{ cake.name }}</li>
-        {% endfor %}
-    </ul>
-{% endif %}
-<a href="{% url 'quizz-home' %}" class="btn btn-primary mt-3">Back to Waffle Grid</a>
+    </div>
+</div>
+
 {% endblock %}
