@@ -39,7 +39,24 @@
                 <a href="#">upgrade your browser</a> to improve your experience.
             </p>
         <![endif]-->
-        
+        <div class="container my-5">
+            <h1 class="my-4">Choose a Waffle to Start the Quiz</h1>
+            <div class="row">
+                {% for waffel in waffles %}
+                    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                        <div class="card h-100">
+                            {% if waffel.image %}
+                        <img src="{{ waffel.image.url }}" class="card-img-top" alt="{{ waffel.name }}">
+                    {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{waffel.id}} - {{ waffel.name }}</h5>
+                                <a href="{% url 'waffles-quizz' waffel.id  %}" class="btn btn-primary">Start Quiz</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
         <div class="container my-5">
             <h1 class="mb-4">Sauce List</h1>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
@@ -82,7 +99,22 @@
                 {% endfor %}
             </div>
         </div>
-     
+        
+        <div class="container my-5">
+            <h1 class="mb-4">Toppings List</h1>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+                {% for t in toppings %}
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ t.name }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
 
 
 
