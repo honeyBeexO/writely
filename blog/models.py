@@ -1,6 +1,6 @@
-from django.db import models
-from django.utils import timezone
-from django.contrib.auth.models import User
+from django.db import models # type: ignore
+from django.utils import timezone # type: ignore
+from django.contrib.auth.models import User # type: ignore
 # Create your models here.
 import random
 tags = ['Technology','Design','Culture','Business','Politics','Opinion','Science','Health','Style','Travel']
@@ -9,8 +9,10 @@ class Post(models.Model):
     title= models.CharField(max_length=100)
     content= models.TextField()
     # We can use auto_now_add=True but that means we set
-    # the date only when this object is created once and it's final. that would be better for date created
-    # instead we can use default with a django utility Timezone. now we can update the date later on
+    # the date only when this object is created once and it's final.
+    # that would be better for date created
+    # instead we can use default with a django utility Timezone. 
+    # now we can update the date later on
     date_posted= models.DateTimeField(default=timezone.now, null=True,blank=True)
     date_created= models.DateTimeField(auto_now_add=True,null=True,blank=True)
     # import the user model from django.contrib.auth.models
