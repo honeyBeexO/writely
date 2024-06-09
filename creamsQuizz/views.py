@@ -17,8 +17,8 @@ def home(request):
 from . forms import WaffleQuizForm
 def get_feedback(selected,correct):
     feedback = []
-    print("selected: "+selected)
-    print("correct:"+correct)
+    print(selected)
+    print(correct)
     for s in selected:
                 if s in correct:
                     feedback.append({
@@ -44,13 +44,14 @@ def waffles_quizz(request, waffel_id):
 
             correct_sauces = waffel.sauces.all()
             correct_toppings = waffel.toppings.all()
+            print(correct_toppings)
             correct_cakes = waffel.cakes.all()
             correct_scoops = waffel.scoops.all()
             
-            t_feedback = get_feedback(selected_toppings,correct_toppings)
-            s_feedback = get_feedback(selected_sauces,correct_sauces)
-            c_feedback = get_feedback(selected_cakes,correct_cakes)
-            sc_feedback = get_feedback(selected_scoops,correct_scoops)
+            t_feedback = get_feedback(set(selected_toppings),set(correct_toppings))
+            #s_feedback = get_feedback(selected_sauces,correct_sauces)
+            #c_feedback = get_feedback(selected_cakes,correct_cakes)
+            #sc_feedback = get_feedback(selected_scoops,correct_scoops)
 
                     
             context = {
@@ -66,9 +67,9 @@ def waffles_quizz(request, waffel_id):
                                set(selected_toppings) == set(correct_toppings) and
                                set(selected_cakes) == set(correct_cakes)),
                 't_feedback':t_feedback,
-                's_feedback':s_feedback,
-                'c_feedback':c_feedback,
-                'sc_feedback':sc_feedback,
+                #'s_feedback':s_feedback,
+                #'c_feedback':c_feedback,
+                #'sc_feedback':sc_feedback,
             }
             return render(request, 'creamsQuizz/result.html', context)
     else:

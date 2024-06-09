@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin # type: ignore
 from django.urls import path, include # type: ignore
 from users import views as users_views
-from django.contrib.auth import views as auth_views
+from django.contrib.auth import views as auth_views # type: ignore
 from creamsQuizz import views as quizz_views
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,4 +33,7 @@ urlpatterns = [
     
     #catalog application
     path('catalog/', include('catalog.urls')),
+    
+    #Polls tutorial
+    path('polls/', include('polls.urls'))
 ]
