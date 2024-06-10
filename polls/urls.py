@@ -1,6 +1,7 @@
 from django.urls import path # type: ignore
 from . import views
 
+app_name = 'polls'
 urlpatterns = [
     path('',views.index,name='polls-index'),
     # ex: /polls/5/
