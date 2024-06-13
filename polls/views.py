@@ -1,5 +1,5 @@
 from typing import Any
-from django.db.models.query import QuerySet
+from django.db.models.query import QuerySet # type: ignore
 from django.shortcuts import render # type: ignore
 
 # Create your views here.
@@ -18,15 +18,15 @@ def detail(request, question_id):
         raise Http404("Quesion not found")
     return render(request, 'polls/detail.html', {'question': question})
 
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404 # type: ignore
 
 def results(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     return render(request, 'polls/result.html', {'question': question})
 
-from django.http import HttpResponseRedirect
-from django.urls import reverse
-from django.db.models import F,Q
+from django.http import HttpResponseRedirect # type: ignore
+from django.urls import reverse # type: ignore
+from django.db.models import F,Q # type: ignore
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     try:
@@ -50,19 +50,31 @@ def vote(request, question_id):
         return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
     
 
-from django.views import generic
+from django.views import generic # type: ignore
+from django.utils import timezone # type: ignore
 
 class IndexView(generic.ListView):
     template_name = "polls/index.html"
     context_object_name = "latest_question_list"
 
+    # def get_queryset(self):
+    #     """Return the last five published questions."""
+    #     return Question.objects.order_by("-pub_date")[:5]
     def get_queryset(self):
-        """Return the last five published questions."""
-        return Question.objects.order_by("-pub_date")[:5]
+        """
+        Return the last five published questions (not including those set to be
+        published in the future).
+        """
+        return Question.objects.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
     
 class DetailView(generic.DetailView):
     model = Question
     template_name = "polls/detail.html"
+    def get_queryset(self):
+        """
+        Excludes any questions that aren't published yet.
+        """
+        return Question.objects.filter(pub_date__lte=timezone.now())
 
 class ResultView(generic.DetailView):
     model = Question
