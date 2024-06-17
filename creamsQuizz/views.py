@@ -1,16 +1,25 @@
 from django.shortcuts import render, get_object_or_404 # type: ignore
-from . import models
+from .models import Waffel,CookieDough,Crep,Cake,Sauce,Topping,Icecream
 # Create your views here.
 
-
+def index(request):
+    waffels = Waffel.objects.all()
+    creps = Crep.objects.all()
+    cookies = CookieDough.objects.all()
+    context = {
+        'waffels': waffels,
+        'creps':creps,
+        'cookies':cookies
+        } 
+    return render(request,'creamsQuizz/index.html',context)
 
 def home(request):
     context = {
         'title':'Qizz',
-        'sauces': models.Sauce.objects.all(),
-        'toppings': models.Topping.objects.all(),
-        'cakes': models.Cake.objects.all(),
-        'waffles': models.Waffel.objects.all()
+        'creps': Crep.objects.all(),
+        'cookies': CookieDough.objects.all(),
+        'cakes': Cake.objects.all(),
+        'waffles': Waffel.objects.all()
     }
     return render(request, 'creamsQuizz/home.html', context=context)
 
@@ -33,7 +42,7 @@ def get_feedback(selected,correct):
     return feedback
 
 def waffles_quizz(request, waffel_id):
-    waffel = get_object_or_404(models.Waffel, pk=waffel_id)
+    waffel = get_object_or_404(Waffel, pk=waffel_id)
     if request.method == 'POST':
         form = WaffleQuizForm(request.POST)
         if form.is_valid():

@@ -182,7 +182,22 @@ class Waffel(DessertBase):
 class Crep(DessertBase):
     pass
 
-
+class CookieDough(models.Model):
+    WHITE_CD = 'White Choclate Cookie Dough'
+    MILK_CD = 'Milk Choclate Cookie Dough'
+    DOUBLE_CD = 'Double Choclate Cookie Dough'
+    types = [(WHITE_CD, WHITE_CD), (MILK_CD, MILK_CD),(DOUBLE_CD,DOUBLE_CD)]
     
+    name = models.CharField(max_length=256)
+    type = models.CharField(max_length=100, choices=types)
+    sauces = models.ManyToManyField('Sauce', blank=True, null=True)
+    toppings = models.ManyToManyField('Topping', blank=True, null=True)
+    cakes = models.ManyToManyField('Cake', blank=True, null=True)
+    scoops = models.ManyToManyField('Icecream', blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.name} {self.__class__.__name__}"
+
     
      
