@@ -1,4 +1,3 @@
-from typing import Any
 from django.db.models.query import QuerySet # type: ignore
 from django.shortcuts import render # type: ignore
 

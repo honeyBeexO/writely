@@ -157,19 +157,32 @@ class Icecream(models.Model):
 
     def __str__(self):
         return self.name
-
-class Waffel(models.Model):
+class DessertBase(models.Model):
     CLASSIC = 'Signature Desserts continued & OLD SCHOOL CLASSICS'
     PREMIUM = 'Premium'
-    types = [(CLASSIC,CLASSIC),(PREMIUM,PREMIUM)]
+    types = [(CLASSIC, CLASSIC), (PREMIUM, PREMIUM)]
+    
     name = models.CharField(max_length=256)
-    type = models.CharField(max_length=100,choices=types)
-    sauces = models.ManyToManyField(Sauce, blank=True, null=True)
-    toppings = models.ManyToManyField(Topping, blank=True, null=True)
-    cakes = models.ManyToManyField(Cake, blank=True, null=True)
-    scoops = models.ManyToManyField(Icecream, blank=True, null=True)
-    description = models.TextField(blank=True,null=True)
-    
+    type = models.CharField(max_length=100, choices=types)
+    sauces = models.ManyToManyField('Sauce', blank=True, null=True)
+    toppings = models.ManyToManyField('Topping', blank=True, null=True)
+    cakes = models.ManyToManyField('Cake', blank=True, null=True)
+    scoops = models.ManyToManyField('Icecream', blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+
+    class Meta:
+        abstract = True
+
     def __str__(self):
-        return self.name + ' ' + 'Waffle'
+        return f"{self.name} {self.__class__.__name__}"
     
+class Waffel(DessertBase):
+    pass
+
+class Crep(DessertBase):
+    pass
+
+
+    
+    
+     
