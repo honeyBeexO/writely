@@ -2,7 +2,7 @@ from django.contrib import admin # type: ignore
 
 # Register your models here.
 from django.contrib import admin # type: ignore
-from .models import Sauce,Cake,Topping,Icecream,Waffel,CookieDough,Crep
+from .models import Sauce,Cake,Topping,Icecream,Waffel,CookieDough,Crepe
 # Register your models here.
 # admin.site.register(models.Sauce)
 # admin.site.register(models.Topping)
@@ -25,10 +25,10 @@ WaffelCakeInline = create_inline(Waffel, 'cakes')
 WaffelScoopsInline = create_inline(Waffel, 'scoops')
 
 # Create inline classes for Crep
-CrepSauceInline = create_inline(Crep, 'sauces')
-CrepToppingInline = create_inline(Crep, 'toppings')
-CrepCakeInline = create_inline(Crep, 'cakes')
-CrepScoopsInline = create_inline(Crep, 'scoops')
+CrepSauceInline = create_inline(Crepe, 'sauces')
+CrepToppingInline = create_inline(Crepe, 'toppings')
+CrepCakeInline = create_inline(Crepe, 'cakes')
+CrepScoopsInline = create_inline(Crepe, 'scoops')
 
 # Create inline classes for CookieDough
 CookieDoughSauceInline = create_inline(CookieDough, 'sauces')
@@ -44,7 +44,7 @@ class WaffelAdmin(admin.ModelAdmin):
     search_fields = ('name', 'description')
     exclude = ('sauces', 'toppings', 'cakes', 'scoops')
 
-@admin.register(Crep)
+@admin.register(Crepe)
 class CrepAdmin(admin.ModelAdmin):
     inlines = [CrepSauceInline, CrepToppingInline, CrepCakeInline, CrepScoopsInline]
     list_display = ('name', 'type', 'description')

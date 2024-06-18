@@ -179,7 +179,7 @@ class DessertBase(models.Model):
 class Waffel(DessertBase):
     pass
 
-class Crep(DessertBase):
+class Crepe(DessertBase):
     pass
 
 class CookieDough(models.Model):

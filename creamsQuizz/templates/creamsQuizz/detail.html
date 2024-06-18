@@ -1,0 +1,19 @@
+{% extends "creamsQuizz/quizz_base.html" %}
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row">
+        {% for waffel in waffels %}
+        <div class="col-md-4 mb-4">
+            <div class="card bg-light" onclick="window.location.href='{% url 'waffel_detail' waffel.id %}'">
+                <div class="card-body">
+                    <h5 class="card-title">{{ waffel.name }}</h5>
+                    <p class="card-text">{{ waffel.description|truncatewords:20 }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

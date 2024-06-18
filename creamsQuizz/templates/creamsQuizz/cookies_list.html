@@ -1,0 +1,21 @@
+{% extends "creamsQuizz/base/quizz_base.html" %}
+{% block content %}
+
+{% if dessert %}
+    <div class="container mt-5">
+        <div class="row">
+            {% for d in dessert %}
+            <div class="col-md-4 mb-4">
+                <div class="card bg-light" onclick="window.location.href='#'">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ forloop.counter}} - {{ d.name }}</h4>
+                        <p class="card-text">{{d.type|truncatewords:20 }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+
+{% endblock content %}

@@ -1,10 +1,10 @@
 from django.shortcuts import render, get_object_or_404 # type: ignore
-from .models import Waffel,CookieDough,Crep,Cake,Sauce,Topping,Icecream
+from .models import Waffel,CookieDough,Crepe,Cake,Sauce,Topping,Icecream
 # Create your views here.
 
 def index(request):
     waffels = Waffel.objects.all()
-    creps = Crep.objects.all()
+    creps = Crepe.objects.all()
     cookies = CookieDough.objects.all()
     context = {
         'waffels': waffels,
@@ -12,6 +12,30 @@ def index(request):
         'cookies':cookies
         } 
     return render(request,'creamsQuizz/index.html',context)
+
+from django.http import HttpResponseRedirect,Http404
+from django.urls import reverse
+from django.views import generic 
+from django.utils import timezone
+from django.db.models import F,Q 
+
+class WaffelListView(generic.ListView):
+    model = Waffel
+    template_name = 'creamsQuizz/waffels_list.html'
+    context_object_name ='dessert'
+    
+class CrepesListView(generic.ListView):
+    model = Crepe
+    template_name = 'creamsQuizz/crepes_list.html'
+    context_object_name ='dessert'
+    
+class CookieDoughsListView(generic.ListView):
+    model = CookieDough
+    template_name = 'creamsQuizz/cookies_list.html'
+    context_object_name ='dessert'
+
+
+
 
 def home(request):
     context = {
@@ -22,7 +46,6 @@ def home(request):
         'waffles': Waffel.objects.all()
     }
     return render(request, 'creamsQuizz/home.html', context=context)
-
 from . forms import WaffleQuizForm
 def get_feedback(selected,correct):
     feedback = []
