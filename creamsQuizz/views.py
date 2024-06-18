@@ -34,19 +34,12 @@ class CookieDoughsListView(generic.ListView):
     template_name = 'creamsQuizz/cookies_list.html'
     context_object_name ='dessert'
 
+class WaffelDetailView(generic.DetailView):
+    model = Waffel
+    template_name = ''
 
 
 
-def home(request):
-    context = {
-        'title':'Qizz',
-        'creps': Crep.objects.all(),
-        'cookies': CookieDough.objects.all(),
-        'cakes': Cake.objects.all(),
-        'waffles': Waffel.objects.all()
-    }
-    return render(request, 'creamsQuizz/home.html', context=context)
-from . forms import WaffleQuizForm
 def get_feedback(selected,correct):
     feedback = []
     print(selected)
