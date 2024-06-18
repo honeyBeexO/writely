@@ -1,34 +1,60 @@
-{% extends "creamsQuizz/quizz_base.html" %}
+{% extends "creamsQuizz/base/quizz_base.html" %}
 {% block content %}
-
-<div class="container mt-5">
-    <div class="row">
-        {% for waffel in waffels %}
-        <div class="col-md-4 mb-4">
-            <div class="card bg-light" onclick="window.location.href='{% url 'waffel_detail' waffel.id %}'">
-                <div class="card-body">
-                    <h5 class="card-title">{{ waffel.name }}</h5>
-                    <p class="card-text">{{ waffel.description|truncatewords:20 }}</p>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-</div>
 {% comment %} {% url 'polls:vote' question.id %} {% endcomment %}
-<form action="#" method="post">
-    {% csrf_token %}
-    <fieldset>
-        <legend><h1>{{ question.question_text }}</h1></legend>
-        {% if error_message %}
-            <p><strong> {{ error_message }} </strong></p>
-        {% endif %}
-        {% for choice in question.choice_set.all %}
-            <input type="radio" name="choice" id="choice-{{ forloop.counter }}" value="{{ choice.id }}">
-            <label for="choice-{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
-        {% endfor %}
-    </fieldset>
-    <input type="submit" value="Vote">
-</form>
-
+<style>
+    .card {
+        cursor: pointer;
+        transition: transform 0.2s;
+        margin-bottom: 15px;
+    }
+    .card:hover {
+        transform: scale(1.05);
+    }
+    .card-body {
+        text-align: center;
+    }
+    .card input[type="checkbox"] {
+        display: none;
+    }
+    .card.checked .card-body {
+        background-color: #007bff;
+        color: white;
+    }
+</style>
+<div class="container mt-5">
+    <form action="#" method="post">
+        {% csrf_token %}
+        <fieldset>
+            <legend><h1>{{ dessert.name }}</h1></legend>
+            {% if error_message %}
+                <p><strong>{{ error_message }}</strong></p>
+            {% endif %}
+            <div class="row">
+                {% for topping in dessert.toppings.all %}
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card" onclick="toggleCheckbox({{ forloop.counter }})">
+                        <input type="checkbox" name="toppings" id="topping-{{ forloop.counter }}" value="{{ topping.id }}">
+                        <label class="card-body" for="topping-{{ forloop.counter }}">
+                            <h5 class="card-title">{{ topping.name }}</h5>
+                        </label>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </fieldset>
+        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+    </form>
+</div>
+<script>
+    function toggleCheckbox(counter) {
+        const checkbox = document.getElementById('choice-' + counter);
+        const card = checkbox.closest('.card');
+        checkbox.checked = !checkbox.checked;
+        if (checkbox.checked) {
+            card.classList.add('checked');
+        } else {
+            card.classList.remove('checked');
+        }
+    }
+</script>
 {% endblock content %}

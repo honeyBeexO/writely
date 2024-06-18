@@ -36,7 +36,22 @@ class CookieDoughsListView(generic.ListView):
 
 class WaffelDetailView(generic.DetailView):
     model = Waffel
-    template_name = ''
+    template_name = 'creamsQuizz/waffel_detail.html'
+    context_object_name = 'dessert'
+    
+def waffel_detail(request, waffel_id):
+    try:
+        dessert = Waffel.objects.get(pk=waffel_id)
+    except Waffel.DoesNotExist:
+        raise Http404("Waffel not found")
+    context = {
+        'dessert': dessert,
+        'toppings':Topping.objects.all(),
+        'sauces':Sauce.objects.all(),
+        'cakes':Cake.objects.all(),
+        'scoops':Icecream.objects.all()
+               }
+    return render(request, 'creamsQuizz/waffel_detail.html', context=context)
 
 
 
