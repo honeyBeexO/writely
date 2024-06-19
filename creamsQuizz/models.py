@@ -148,7 +148,7 @@ class Cake(models.Model):
     def __str__(self):
         return self.name
 
-class Icecream(models.Model):
+class Scoop(models.Model):
     GELATO = 'Gelato'
     SORBET = 'Sorbet'
     types = [(GELATO, GELATO), (SORBET, SORBET)]
@@ -164,10 +164,10 @@ class DessertBase(models.Model):
     
     name = models.CharField(max_length=256)
     type = models.CharField(max_length=100, choices=types)
-    sauces = models.ManyToManyField('Sauce', blank=True, null=True)
-    toppings = models.ManyToManyField('Topping', blank=True, null=True)
-    cakes = models.ManyToManyField('Cake', blank=True, null=True)
-    scoops = models.ManyToManyField('Icecream', blank=True, null=True)
+    sauces = models.ManyToManyField('Sauce', blank=True)
+    toppings = models.ManyToManyField('Topping', blank=True)
+    cakes = models.ManyToManyField('Cake', blank=True)
+    scoops = models.ManyToManyField('Scoop', blank=True)
     description = models.TextField(blank=True, null=True)
 
     class Meta:
@@ -190,10 +190,10 @@ class CookieDough(models.Model):
     
     name = models.CharField(max_length=256)
     type = models.CharField(max_length=100, choices=types)
-    sauces = models.ManyToManyField('Sauce', blank=True, null=True)
-    toppings = models.ManyToManyField('Topping', blank=True, null=True)
-    cakes = models.ManyToManyField('Cake', blank=True, null=True)
-    scoops = models.ManyToManyField('Icecream', blank=True, null=True)
+    sauces = models.ManyToManyField('Sauce', blank=True)
+    toppings = models.ManyToManyField('Topping', blank=True)
+    cakes = models.ManyToManyField('Cake', blank=True)
+    scoops = models.ManyToManyField('Scoop', blank=True)
     description = models.TextField(blank=True, null=True)
 
     def __str__(self):

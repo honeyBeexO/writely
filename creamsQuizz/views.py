@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404 # type: ignore
-from .models import Waffel,CookieDough,Crepe,Cake,Sauce,Topping,Icecream
+from .models import Waffel,CookieDough,Crepe,Cake,Sauce,Topping,Scoop
 # Create your views here.
 
 def index(request):
@@ -13,11 +13,11 @@ def index(request):
         } 
     return render(request,'creamsQuizz/index.html',context)
 
-from django.http import HttpResponseRedirect,Http404
-from django.urls import reverse
-from django.views import generic 
-from django.utils import timezone
-from django.db.models import F,Q 
+from django.http import HttpResponseRedirect,Http404 # type: ignore
+from django.urls import reverse # type: ignore
+from django.views import generic  # type: ignore
+from django.utils import timezone # type: ignore
+from django.db.models import F,Q  # type: ignore
 
 class WaffelListView(generic.ListView):
     model = Waffel
@@ -50,12 +50,56 @@ def waffel_detail(request, waffel_id):
             'toppings':Topping.objects.all(),
             'sauces':Sauce.objects.all(),
             'cakes':Cake.objects.all(),
-            'scoops':Icecream.objects.all() 
+            'scoops':Scoop.objects.all() 
             }, 
         }
     return render(request, 'creamsQuizz/waffel_detail.html', context=context)
 
+def vote(request, waffel_id):
+        
+    if request.method=='POST':
+        try:
+            waffel = get_object_or_404(Waffel, pk=waffel_id)
+            #selected_toppings = waffel.choice_set.get(pk=request.POST["choice"])
+            selected_toppings = request.POST.getlist('Toppings')
+            selected_sauces = request.POST.getlist('Sauces')
+            selected_cakes = request.POST.getlist('Cakes')
+            selected_scoops = request.POST.getlist('Scoops')
+            # Ensure at least one ingredient is selected
+            if not (selected_toppings or selected_sauces or selected_cakes or selected_scoops):
+                raise ValueError("You must select at least one ingredient.")
 
+        except (KeyError, ValueError, Waffel.DoesNotExist) as e:
+            # Redisplay the question voting form.
+            error_message = str(e)
+            return render(
+                request,
+                "creamsQuizz/waffel_detail.html",
+                {
+                    "dessert": waffel,
+                    "error_message": e,
+                },
+            )
+        else:
+            # selected_choice.votes = F("votes") + 1
+            # selected_choice.save()
+            # Always return an HttpResponseRedirect after successfully dealing
+            # with POST data. This prevents data from being posted twice if a
+            # user hits the Back button.
+            correct_toppings = waffel.toppings.values_list('id',flat=True)
+            correct_sauces = waffel.sauces.values_list('id',flat=True)
+            correct_cakes = waffel.cakes.values_list('id',flat=True)
+            correct_scoops = waffel.scoops.values_list('id',flat=True)
+            if(set(correct_toppings) == set(selected_toppings) and 
+               set(correct_sauces) == set(selected_sauces) and 
+               set(correct_cakes) == set(correct_cakes) and 
+               set(correct_scoops) == set(selected_scoops)
+               ):
+                pass
+            return HttpResponseRedirect(reverse("polls:results", args=(waffel.id,)))
+    else:
+        pass
+    
 
 def get_feedback(selected,correct):
     feedback = []
@@ -73,52 +117,3 @@ def get_feedback(selected,correct):
                         'alert':'danger',
                     })
     return feedback
-
-def waffles_quizz(request, waffel_id):
-    waffel = get_object_or_404(Waffel, pk=waffel_id)
-    if request.method == 'POST':
-        form = WaffleQuizForm(request.POST)
-        if form.is_valid():
-            selected_sauces = form.cleaned_data['sauces']
-            selected_toppings = form.cleaned_data['toppings']
-            selected_cakes = form.cleaned_data['cakes']
-            selected_scoops = form.cleaned_data['scoops']
-
-            correct_sauces = waffel.sauces.all()
-            correct_toppings = waffel.toppings.all()
-            print(correct_toppings)
-            correct_cakes = waffel.cakes.all()
-            correct_scoops = waffel.scoops.all()
-            
-            t_feedback = get_feedback(set(selected_toppings),set(correct_toppings))
-            #s_feedback = get_feedback(selected_sauces,correct_sauces)
-            #c_feedback = get_feedback(selected_cakes,correct_cakes)
-            #sc_feedback = get_feedback(selected_scoops,correct_scoops)
-
-                    
-            context = {
-                'waffel': waffel,
-                'selected_sauces': selected_sauces,
-                'selected_toppings': selected_toppings,
-                'selected_cakes': selected_cakes,
-                'selected_scoops':selected_scoops,
-                'correct_sauces': correct_sauces,
-                'correct_toppings': correct_toppings,
-                'correct_scoops': correct_scoops,
-                'is_correct': (set(selected_sauces) == set(correct_sauces) and
-                               set(selected_toppings) == set(correct_toppings) and
-                               set(selected_cakes) == set(correct_cakes)),
-                't_feedback':t_feedback,
-                #'s_feedback':s_feedback,
-                #'c_feedback':c_feedback,
-                #'sc_feedback':sc_feedback,
-            }
-            return render(request, 'creamsQuizz/result.html', context)
-    else:
-        form = WaffleQuizForm()
-
-    context = {
-        'waffel': waffel,
-        'form': form,
-    }
-    return render(request, 'creamsQuizz/quiz.html', context)

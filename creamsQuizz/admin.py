@@ -2,7 +2,7 @@ from django.contrib import admin # type: ignore
 
 # Register your models here.
 from django.contrib import admin # type: ignore
-from .models import Sauce,Cake,Topping,Icecream,Waffel,CookieDough,Crepe
+from .models import Sauce,Cake,Topping,Scoop,Waffel,CookieDough,Crepe
 # Register your models here.
 # admin.site.register(models.Sauce)
 # admin.site.register(models.Topping)
@@ -74,8 +74,8 @@ class ToppingAdmin(admin.ModelAdmin):
 class CakeAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
-@admin.register(Icecream)
-class IcecreamAdmin(admin.ModelAdmin):
+@admin.register(Scoop)
+class ScoopAdmin(admin.ModelAdmin):
     list_display = ('name', 'type')
     list_filter = ('type',)
     search_fields = ('name',)

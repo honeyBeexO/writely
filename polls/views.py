@@ -26,6 +26,7 @@ def results(request, question_id):
 from django.http import HttpResponseRedirect # type: ignore
 from django.urls import reverse # type: ignore
 from django.db.models import F,Q # type: ignore
+
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     try:
