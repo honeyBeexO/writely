@@ -1,6 +1,5 @@
 {% extends "creamsQuizz/base/quizz_base.html" %}
 {% block content %}
-{% comment %} {% url 'polls:vote' question.id %} {% endcomment %}
 <style>
     .card {
         cursor: pointer;
@@ -17,7 +16,7 @@
         display: none;
     }
     .card.checked .card-body {
-        background-color: #007bff;
+        background-color: green;
         color: white;
     }
 </style>
@@ -29,25 +28,28 @@
             {% if error_message %}
                 <p><strong>{{ error_message }}</strong></p>
             {% endif %}
-            <div class="row">
-                {% for topping in dessert.toppings.all %}
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="card" onclick="toggleCheckbox({{ forloop.counter }})">
-                        <input type="checkbox" name="toppings" id="topping-{{ forloop.counter }}" value="{{ topping.id }}">
-                        <label class="card-body" for="topping-{{ forloop.counter }}">
-                            <h5 class="card-title">{{ topping.name }}</h5>
-                        </label>
+            {% for category, items in ingredient_categories.items %}
+                <h2>{{ category }}</h2>
+                <div class="row">
+                    {% for item in items %}
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="card" onclick="toggleCheckbox('{{ category }}-{{ forloop.counter }}')">
+                            <input type="checkbox" name="{{ category }}" id="{{ category }}-{{ forloop.counter }}" value="{{ item.id }}">
+                            <label class="card-body" for="{{ category }}-{{ forloop.counter }}">
+                                <h5 class="card-title">{{ item.name }}</h5>
+                            </label>
+                        </div>
                     </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
-            </div>
+            {% endfor %}
         </fieldset>
         <button type="submit" class="btn btn-primary mt-3">Submit</button>
     </form>
 </div>
 <script>
-    function toggleCheckbox(counter) {
-        const checkbox = document.getElementById('choice-' + counter);
+    function toggleCheckbox(id) {
+        const checkbox = document.getElementById(id);
         const card = checkbox.closest('.card');
         checkbox.checked = !checkbox.checked;
         if (checkbox.checked) {

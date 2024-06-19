@@ -46,11 +46,13 @@ def waffel_detail(request, waffel_id):
         raise Http404("Waffel not found")
     context = {
         'dessert': dessert,
-        'toppings':Topping.objects.all(),
-        'sauces':Sauce.objects.all(),
-        'cakes':Cake.objects.all(),
-        'scoops':Icecream.objects.all()
-               }
+        'ingredient_categories':{
+            'toppings':Topping.objects.all(),
+            'sauces':Sauce.objects.all(),
+            'cakes':Cake.objects.all(),
+            'scoops':Icecream.objects.all() 
+            }, 
+        }
     return render(request, 'creamsQuizz/waffel_detail.html', context=context)
 
 
