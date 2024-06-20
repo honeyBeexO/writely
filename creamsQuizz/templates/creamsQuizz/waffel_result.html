@@ -1,0 +1,68 @@
+{% extends "creamsQuizz/base/quizz_base.html" %}
+{% block content %}
+<style>
+    .card-body {
+        text-align: center;
+    }
+    .correct {
+        background-color: #4CAF50; /* Light green */
+        color: white;
+    }
+</style>
+
+<div class="container mt-5">
+    <h1>Correct Ingredients for {{ waffel.name }}</h1>
+    <h2>Toppings</h2>
+    <div class="row">
+        {% for topping in waffel.toppings.all %}
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card {% if topping.id in correct_toppings %}correct{% endif %}">
+                <label class="card-body">
+                    <h5 class="card-title">{{ topping.name }}</h5>
+                </label>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h2>Sauces</h2>
+    <div class="row">
+        {% for sauce in waffel.sauces.all %}
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card {% if sauce.id in correct_sauces %}correct{% endif %}">
+                <label class="card-body">
+                    <h5 class="card-title">{{ sauce.name }}</h5>
+                </label>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h2>Cakes</h2>
+    <div class="row">
+        {% for cake in waffel.cakes.all %}
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card {% if cake.id in correct_cakes %}correct{% endif %}">
+                <label class="card-body">
+                    <h5 class="card-title">{{ cake.name }}</h5>
+                </label>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h2>Scoops</h2>
+    <div class="row">
+        {% for scoop in waffel.scoops.all %}
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card {% if scoop.id in correct_scoops %}correct{% endif %}">
+                <label class="card-body">
+                    <h5 class="card-title">{{ scoop.name }}</h5>
+                </label>
+            </div>
+        </div>
+        {% endfor %}
+    </div> 
+    <a href="{% url 'quizz:waffel-detail' waffel.id %}">Try again?</a>
+</div>
+{% endblock content %}
