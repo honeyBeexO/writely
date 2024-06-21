@@ -5,21 +5,56 @@
         text-align: center;
     }
     .correct {
-        background-color: #4CAF50; /* Light green */
-        color: white;
+        background-color: #66bb6a !important; /* Greenish color */
+        color: white !important;
+    }
+    .btn {
+        display: inline-block;
+        font-weight: 400;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        user-select: none;
+        border: 1px solid transparent;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        border-radius: 0.25rem;
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+    .btn-primary {
+        color: #fff;
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+    .btn-primary:hover {
+        color: #fff;
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+    .btn-secondary {
+        color: #fff;
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+    .btn-secondary:hover {
+        color: #fff;
+        background-color: #545b62;
+        border-color: #4e555b;
     }
 </style>
 
 <div class="container mt-5">
     <h1>Correct Ingredients for {{ waffel.name }}</h1>
+    
     <h2>Toppings</h2>
     <div class="row">
         {% for topping in waffel.toppings.all %}
-        <div class="col-12 col-md-6 col-lg-4">
+        <div class="col-12 col-md-6 col-lg-4 mb-3">
             <div class="card {% if topping.id in correct_toppings %}correct{% endif %}">
-                <label class="card-body">
+                <div class="card-body">
                     <h5 class="card-title">{{ topping.name }}</h5>
-                </label>
+                </div>
             </div>
         </div>
         {% endfor %}
@@ -28,11 +63,11 @@
     <h2>Sauces</h2>
     <div class="row">
         {% for sauce in waffel.sauces.all %}
-        <div class="col-12 col-md-6 col-lg-4">
+        <div class="col-12 col-md-6 col-lg-4 mb-3">
             <div class="card {% if sauce.id in correct_sauces %}correct{% endif %}">
-                <label class="card-body">
+                <div class="card-body">
                     <h5 class="card-title">{{ sauce.name }}</h5>
-                </label>
+                </div>
             </div>
         </div>
         {% endfor %}
@@ -41,11 +76,11 @@
     <h2>Cakes</h2>
     <div class="row">
         {% for cake in waffel.cakes.all %}
-        <div class="col-12 col-md-6 col-lg-4">
+        <div class="col-12 col-md-6 col-lg-4 mb-3">
             <div class="card {% if cake.id in correct_cakes %}correct{% endif %}">
-                <label class="card-body">
+                <div class="card-body">
                     <h5 class="card-title">{{ cake.name }}</h5>
-                </label>
+                </div>
             </div>
         </div>
         {% endfor %}
@@ -54,15 +89,19 @@
     <h2>Scoops</h2>
     <div class="row">
         {% for scoop in waffel.scoops.all %}
-        <div class="col-12 col-md-6 col-lg-4">
+        <div class="col-12 col-md-6 col-lg-4 mb-3">
             <div class="card {% if scoop.id in correct_scoops %}correct{% endif %}">
-                <label class="card-body">
+                <div class="card-body">
                     <h5 class="card-title">{{ scoop.name }}</h5>
-                </label>
+                </div>
             </div>
         </div>
         {% endfor %}
     </div> 
-    <a href="{% url 'quizz:waffel-detail' waffel.id %}">Try again?</a>
+    
+    <div class="mt-3">
+        <a href="{% url 'quizz:waffel-detail' waffel.id %}" class="btn btn-primary">Try again?</a>
+        <a href="{% url 'quizz:waffels' %}" class="btn btn-secondary">Choose another Waffel</a>
+    </div>
 </div>
 {% endblock content %}

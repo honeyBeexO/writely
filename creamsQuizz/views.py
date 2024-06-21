@@ -149,7 +149,7 @@ def waffel_vote(request, waffel_id):
             correct_sauces = list(waffel.sauces.values_list('id', flat=True))
             correct_cakes = list(waffel.cakes.values_list('id', flat=True))
             correct_scoops = list(waffel.scoops.values_list('id', flat=True))
-
+            print(get_answer(_request=request, _waffel=waffel))
             if (set(map(int, selected_toppings)) == set(correct_toppings) and
                 set(map(int, selected_sauces)) == set(correct_sauces) and
                 set(map(int, selected_cakes)) == set(correct_cakes) and
@@ -189,6 +189,55 @@ def waffel_vote(request, waffel_id):
             )
     else:
         raise Http404("Invalid request method")
+
+def get_answer(*,_waffel,_request):
+    error_message = ''
+    sauces_error_message=''
+    toppings_error_message=''
+    cakes_error_message=''
+    scoops_error_message=''
+    
+    selected_toppings = set(map(int,_request.POST.getlist('toppings')))
+    selected_sauces = set(map(int,_request.POST.getlist('sauces')))
+    selected_cakes = set(map(int,_request.POST.getlist('cakes')))
+    selected_scoops = set(map(int,_request.POST.getlist('scoops')))
+    
+    if not (selected_toppings or selected_sauces or selected_cakes or selected_scoops):
+            error_message = "You must select at least one ingredient."
+            
+    correct_toppings = set(map(int,list(_waffel.toppings.values_list('id', flat=True))))
+    correct_sauces = set(map(int,list(_waffel.sauces.values_list('id', flat=True))))
+    correct_cakes = set(map(int,list(_waffel.cakes.values_list('id', flat=True))))
+    correct_scoops = set(map(int,list(_waffel.scoops.values_list('id', flat=True))))
+    
+    incorrect_toppings = list(selected_toppings - correct_toppings)
+    incorrect_sauces = list(selected_sauces - correct_sauces)
+    incorrect_cakes = list(selected_cakes - correct_cakes)
+    incorrect_scoops = list(selected_scoops - correct_scoops)
+    
+    if (incorrect_sauces):
+        sauces_error_message = "Incorrect Sauce(s) selecetion"
+    if (incorrect_toppings):
+        toppings_error_message = "Incorrect Topping(s) selecetion"
+    if (incorrect_cakes):
+        cakes_error_message = "Incorrect Cake(s) selecetion"
+    if (incorrect_scoops):
+        scoops_error_message = "Incorrect Scoop(s) selecetion"
+    
+    correct_ingredients = ((correct_toppings == selected_toppings) and 
+                          (correct_sauces == selected_sauces) and
+                          (correct_cakes == selected_cakes) and
+                          (correct_scoops == selected_scoops))
+    
+    feedback = {
+        'errors':[error_message, scoops_error_message,toppings_error_message,cakes_error_message,sauces_error_message],
+        'perfect': correct_ingredients,
+        'incorrect_sauces':incorrect_sauces,
+        'incorrect_toppings':incorrect_toppings,
+        'incorrect_scoops':incorrect_scoops,
+        'incorrect_cakes': incorrect_cakes,   
+    }
+    return feedback
 
 class WaffelResultView(generic.DetailView):
     model = Waffel
