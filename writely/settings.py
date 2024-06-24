@@ -10,20 +10,42 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
+import environ # type: ignore
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ztqr^&@hlw(5yi1!f$rnvhg%o8^hyhtq!rgc=c0z&1d90@hr4+'
+# Initialize environment variables
+env = environ.Env(
+    # Set default values and casting
+    DEBUG=(bool, False)
+)
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# Take environment variables from .env file
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+# Base settings
+DEBUG = env('DEBUG')
+SECRET_KEY = env('SECRET_KEY')
+
+# Google OAuth settings
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': ['profile', 'email'],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'APP': {
+            'client_id': env('GOOGLE_CLIENT_ID'),
+            'secret': env('GOOGLE_SECRET_KEY'),
+            'key': '',
+        },
+    }
+}
 
 ALLOWED_HOSTS = []
 
@@ -44,9 +66,16 @@ INSTALLED_APPS = [
     'catalog.apps.CatalogConfig',
     'creamsQuizz.apps.CreamsquizzConfig',
     'polls.apps.PollsConfig',
+    'auth_app.apps.AuthAppConfig',
     # Third Party Apps
     'crispy_forms',
     'crispy_bootstrap5',
+     # all auth configurations
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -57,6 +86,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # Add allauth AccountMiddleware here
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'writely.urls'
@@ -76,6 +107,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'writely.wsgi.application'
 
@@ -108,7 +140,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
+# # Required for django-allauth
+SITE_ID = 1
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
@@ -137,3 +170,9 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 LOGIN_REDIRECT_URL = 'blog-home'
 LOGIN_URL = "login"
+
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]

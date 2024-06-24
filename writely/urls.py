@@ -21,6 +21,8 @@ from django.contrib.auth import views as auth_views # type: ignore
 from creamsQuizz import views as quizz_views
 urlpatterns = [
     path('admin/', admin.site.urls),
+    #Google Auth 
+    path('accounts/', include('allauth.urls')), 
     # fro my home page
     # path('blog/', include('blog.urls')),
     path('', include('creamsQuizz.urls')),
