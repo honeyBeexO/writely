@@ -87,6 +87,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # Add your custom context processor here
+                'creamsQuizz.context_processors.google_client_id',
             ],
         },
     },
@@ -167,6 +169,8 @@ SOCIALACCOUNT_PROVIDERS = {
             'secret': env('GOOGLE_SECRET_KEY'),
             'key': '',
         },
+        'OAUTH_PKCE_ENABLED': True,
+        'FETCH_USERINFO': True,
     }
 }
 
@@ -178,3 +182,5 @@ AUTHENTICATION_BACKENDS = [
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'none'  # Disable email verification for development
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # For development
+SECURE_REFERRER_POLICY= "strict-origin-when-cross-origin"
+SOCIALACCOUNT_LOGIN_ON_GET=True

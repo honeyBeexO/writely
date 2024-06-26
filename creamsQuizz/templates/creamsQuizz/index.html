@@ -25,6 +25,12 @@
     </style>
 </head>
 <body>
+    {% if not request.user.is_authenticated %}
+        <div id="g_id_onload"
+        data-client_id="{{ GOOGLE_CLIENT_ID }}"
+        data-login_uri="{% url 'google_login_by_token' %}"
+        </div>
+    {% endif %}
     <div class="container mt-5">
 
         <h1>Django Allauth Tutorial</h1>
@@ -59,6 +65,8 @@
             <div class="row"> <a href="{% url 'account_login' %}">Login</a></div>
         {% endif %}
     </div>
+    <!-- Your stuff: Third-party javascript libraries go here, Line 42--> 
+    <script src="https://accounts.google.com/gsi/client" async defer></script> <!-- NEW -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
