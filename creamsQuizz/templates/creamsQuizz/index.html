@@ -1,3 +1,4 @@
+{% load socialaccount %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,6 +26,12 @@
 </head>
 <body>
     <div class="container mt-5">
+
+        <h1>Django Allauth Tutorial</h1>
+            {% if user.is_authenticated %}
+                <p>Welcome {{ user.username }} !!!</p>
+
+        
         <div class="row">
             <div class="col-md-4">
                 <div class="card bg-primary text-white" onclick="window.location.href='{% url 'quizz:waffels' %}'">
@@ -48,6 +55,9 @@
                 </div>
             </div>
         </div>
+        {% else %}
+            <div class="row"> <a href="{% url 'account_login' %}">Login</a></div>
+        {% endif %}
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
