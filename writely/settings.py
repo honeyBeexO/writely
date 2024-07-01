@@ -155,7 +155,7 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 LOGIN_REDIRECT_URL = 'quizz:index' #blog-home
-LOGIN_URL = "login"
+#LOGIN_URL = "login"
 
 # Google OAuth settings
 SOCIALACCOUNT_PROVIDERS = {
@@ -184,3 +184,22 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'  # Disable email verification for developmen
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # For development
 SECURE_REFERRER_POLICY= "strict-origin-when-cross-origin"
 SOCIALACCOUNT_LOGIN_ON_GET=True
+#asgiref==3.8.1
+# certifi==2024.6.2
+# cffi==1.16.0
+# charset-normalizer==3.3.2
+# crispy-bootstrap5==2024.2
+# cryptography==42.0.8
+# Django==5.0.4
+# django-allauth==0.63.3
+# django-crispy-forms==2.1
+# django-environ==0.11.2
+# Faker==24.9.0
+# idna==3.7
+# pycparser==2.22
+# PyJWT==2.8.0
+# python-dateutil==2.9.0.post0
+# requests==2.32.3
+# six==1.16.0
+# sqlparse==0.4.4
+# urllib3==2.2.2

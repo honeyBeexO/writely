@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect # type: ignore
 from .models import Waffel,CookieDough,Crepe,Cake,Sauce,Topping,Scoop
 # Create your views here.
-
+from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
 def index(request):
     waffels = Waffel.objects.all()
     creps = Crepe.objects.all()
@@ -248,3 +248,23 @@ class WaffelResultView(generic.DetailView):
         context = super().get_context_data(**kwargs)
         # Additional context if needed
         return context
+
+from django.urls import reverse
+from django.http import HttpResponseRedirect
+
+from allauth.socialaccount.models import SocialApp
+
+def google_login(request):
+    try:
+        # Retrieve the Google SocialApp
+        google_app = SocialApp.objects.get(provider='google')
+    except SocialApp.DoesNotExist:
+        # Handle the case where Google SocialApp does not exist
+        # Log an error, return an error response, etc.
+        return HttpResponse('Google social app is not configured.')
+
+    # Redirect the user to the Google OAuth login URL
+    # Use the correct URL name for initiating social account login
+    login_url = reverse('socialaccount_login', args=['google'])
+    return HttpResponseRedirect(login_url)
+
